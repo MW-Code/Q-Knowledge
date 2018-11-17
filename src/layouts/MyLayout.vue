@@ -19,22 +19,15 @@
           ref="/"
           style=" padding-left: 10px; cursor:pointer;">
         <q-toolbar-title>
-          <div class="gt-xs">
+          <div class="gt-xs" style="font-weight: 200" >
            Q-Knowledge
           </div>
             </q-toolbar-title>
-                  <q-btn flat
-         v-if="getUser.vorname == undefined"
-          @click="startLogin=!startLogin"
-          label="login"
-          icon="account_circle">
-        </q-btn>
         <q-btn flat
-         v-if="getUser.vorname !== undefined"
-           to="/profil"
-           no-caps
-          :label= "getUser.vorname"
-          icon="account_circle">
+          @click="profilLoginClick"
+          :label="getUser.vorname ? getUser.vorname : 'login'"
+          icon="account_circle"
+          style="font-weight: 200">
         </q-btn>
          <q-btn flat
           @click="showmenu=!showmenu"
@@ -115,11 +108,14 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <loginRegister />
   </q-layout>
 </template>
 
 <script>
 import { openURL } from 'quasar';
+import loginRegister from '../components/modals/loginRegister.vue';
+
 
 export default {
   name: 'MyLayout',
@@ -133,6 +129,14 @@ export default {
   },
   methods: {
     openURL,
+    profilLoginClick() {
+      if (this.getUser.vorname) {
+        this.$router.push('/profil');
+      } else {
+        console.log('starte login!');
+        this.startLogin = !this.startLogin;
+      }
+    },
   },
   computed: {
     getUser() {
@@ -141,6 +145,9 @@ export default {
       const user = this.$store.getters['storeKL/getUser'];
       return user;
     },
+  },
+  components: {
+    loginRegister,
   },
   created: function setupFireBase() {
     this.$store.dispatch('storeKL/FirebaseSetup');
