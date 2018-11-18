@@ -108,7 +108,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-    <loginRegister />
+    <loginRegister :showModal = startLogin @closeModal = "startLogin = false"/>
   </q-layout>
 </template>
 
