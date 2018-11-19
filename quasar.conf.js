@@ -90,6 +90,7 @@ module.exports = function (ctx) {
         'QChip',
         'QKnob',
         'QUploader',
+        'QCheckbox',
       ],
       directives: [
         'Ripple'
