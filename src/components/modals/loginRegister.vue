@@ -16,110 +16,113 @@
       icon="email"
       icon-color="primary"
       label="Login Mail"
-      :error="errorLogin.mail.error"
-      error-label="errorLogin.mail.msg"
+      :error="$v.loginObjekt.mail.$error"
+      error-label="Kein gültiges Mailformat erkannt"
     >
-      <q-input v-model="loginObjekt.mail" type="email"/>
+      <q-input @blur="$v.loginObjekt.mail.$touch" v-model="loginObjekt.mail" type="email"/>
     </q-field>
         <q-field
       icon="vpn_key"
       icon-color="primary"
       label="Login Passwort"
-      :error="errorLogin.pw.error"
-      error-label="errorLogin.pw.msg"
+      :error="$v.loginObjekt.pw.$error"
+      error-label="Bitte gebe ein Passwort ein"
     >
-      <q-input v-model="loginObjekt.pw" type="password"/>
+      <q-input @blur="$v.loginObjekt.pw.$touch" v-model="loginObjekt.pw" type="password"/>
     </q-field>
     <q-btn class="fit q-mt-md" color="primary"
-    :disable="checkLoginError()"
+    :disable="$v.loginObjekt.$error"
     @click="startLogin" label="Login"/>
   </q-tab-pane>
   <q-tab-pane name="tab-2" class="q-pa-none">
       <q-stepper v-model="currentStep" ref="stepper" class="fit no-border">
                     <!-- Step: -->
-                    <q-step default  name="1" title="">
-                      <q-field
-                      orientation="vertical"
-                      icon="email"
-                      label="Mail"
-                      icon-color="primary"
-                      class="q-mb-md q-mt-lg "
-                      >
-                        <q-input type="email" class="q-ma-xs" lower-case
-                        v-model="register.mail" clearable />
-                      </q-field>
-
-                      <q-field
-                      orientation="vertical"
-                      icon="vpn_key"
-                      label="Kennwort"
-                      icon-color="primary"
-                      class="q-mb-md q-mt-md "
-                      >
-                        <q-input type="password" class="q-ma-xs"
-                          v-model="registerLogin.pw" clearable />
-                      </q-field>
+                  <q-step default  name="1" title="">
                     <q-field
-                      orientation="vertical"
-                      icon="vpn_key"
-                      label="Kennwort wiederholen"
-                      icon-color="primary"
-                      class="q-mb-md q-mt-md "
-                      >
-                        <q-input type="password" class="q-ma-xs"
-                          v-model="registerLogin.pw2" clearable />
-                      </q-field>
-                    </q-step>
+                    icon="email"
+                    label="Login Mail"
+                    icon-color="primary"
+                    class="q-mb-md q-mt-lg "
+                    >
+                      <q-input  type="email" class="q-ma-xs" lower-case
+                      v-model="register.mail" clearable />
+                    </q-field>
 
-                    <!-- Step: -->
-                    <q-step name="2" title="">
-                       <q-field
-                      orientation="vertical"
-                      icon="account_circle"
-                      label="Person"
-                      icon-color="primary"
-                      class="q-mb-md q-mt-lg "
-                      >
-                      <q-select
-                      class="q-ma-xs"
-                      color="primary"
-                      v-model="register.geschlecht"
-                      :options="optionsGeschlecht"
-                      float-label="Anrede"
+                    <q-field
+                    icon="vpn_key"
+                    label="Login Passwort"
+                    icon-color="primary"
+                    class="q-mb-md q-mt-md "
+                     :error="$v.registerInfo.pw.$error"
+                    error-label="Bitte gebe ein Passwort ein"
+                    >
+                      <q-input @blur="$v.registerInfo.pw.$touch"
+                        type="password" class="q-ma-xs"
+                        v-model="registerInfo.pw" clearable />
+                    </q-field>
+                  <q-field
 
-                    />
-                      <q-input float-label="Titel (Prof, Dr, Dipl.-Psych, ...)"
-                      type="text" class="q-ma-xs"
-                        v-model="register.titel" />
-                        <q-input float-label="Vorname" type="text" class="q-ma-xs"
-                        v-model="register.vorname" />
-                        <q-input float-label="Nachname" type="text" class="q-ma-xs"
-                        v-model="register.nachname" />
-                        <q-datetime popover class="q-ma-xs"
-                        float-label="Geburtstag"
-                        v-model="register.geburtsdatum" type="date"
-                        format="dddd DD.MM.YYYY" :max="new Date()" />
-                      </q-field>
-                         <q-field
-                      orientation="vertical"
-                      icon="place"
-                      label="Anschrift"
-                      icon-color="primary"
-                      class="q-mb-md q-mt-lg "
-                      >
-                        <q-input float-label="Straße und Hausnummer" type="text" class="q-ma-xs"
-                        v-model="register.anschrift.strasseHausnummer" />
-                        <q-input float-label="PLZ" type="number" class="q-ma-xs"
-                        v-model="register.anschrift.plz" />
-                          <q-input float-label="Ort" type="text" class="q-ma-xs"
-                        v-model="register.anschrift.ort" />
-                      </q-field>
+                    icon="vpn_key"
+                    label="Login Passwort wiederholen"
+                    icon-color="primary"
+                    class="q-mb-md q-mt-md "
+                     :error="$v.registerInfo.pw2.$error"
+                    error-label="Bitte gebe ein Passwort ein"
+                    >
+                      <q-input @blur="$v.registerInfo.pw2.$touch"
+                        type="password" class="q-ma-xs"
+                        v-model="registerInfo.pw2" clearable />
+                    </q-field>
+                  </q-step>
+
+                  <!-- Step: -->
+                  <q-step name="2" title="">
+                    <q-field
+                    icon="account_circle"
+                    label="Person"
+                    icon-color="primary"
+                    class="q-mb-md q-mt-lg "
+                    >
+                    <q-select
+                    class="q-ma-xs"
+                    color="primary"
+                    v-model="register.geschlecht"
+                    :options="optionsGeschlecht"
+                    float-label="Anrede"
+
+                  />
+                    <q-input float-label="Titel (Prof, Dr, Dipl.-Psych, ...)"
+                    type="text" class="q-ma-xs"
+                      v-model="register.titel" />
+                      <q-input float-label="Vorname" type="text" class="q-ma-xs"
+                      v-model="register.vorname" />
+                      <q-input float-label="Nachname" type="text" class="q-ma-xs"
+                      v-model="register.nachname" />
+                      <q-datetime popover class="q-ma-xs"
+                      float-label="Geburtstag"
+                      v-model="register.geburtsdatum" type="date"
+                      format="dddd DD.MM.YYYY" :max="new Date()" />
+                    </q-field>
+                        <q-field
+
+                    icon="place"
+                    label="Anschrift"
+                    icon-color="primary"
+                    class="q-mb-md q-mt-lg "
+                    >
+                      <q-input float-label="Straße und Hausnummer" type="text" class="q-ma-xs"
+                      v-model="register.anschrift.strasseHausnummer" />
+                      <q-input float-label="PLZ" type="number" class="q-ma-xs"
+                      v-model="register.anschrift.plz" />
+                        <q-input float-label="Ort" type="text" class="q-ma-xs"
+                      v-model="register.anschrift.ort" />
+                    </q-field>
                     </q-step>
 
                     <!-- Step: -->
                     <q-step name="3" title="">
                        <q-field
-                      orientation="vertical"
+
                       icon="phone"
                       label="Telefonnummer"
                       icon-color="primary"
@@ -133,7 +136,7 @@
                       label="Wie haben Sie von uns erfahren?"
                       icon-color="primary"
                       class="q-mb-md"
-                      orientation="vertical"
+
                       >
                       <q-select
                       class="q-ma-xs"
@@ -172,6 +175,8 @@
 </template>
 
 <script>
+import { required, email, sameAs, minLength } from 'vuelidate/lib/validators';
+
 export default {
   name: 'loginRegisterModal',
   props: ['showModal'],
@@ -198,12 +203,11 @@ export default {
         },
       ],
       agbsBlaBla: false,
-      login: { mail: '', pw: '' },
-      registerLogin: {
+      registerInfo: {
         pw: '',
         pw2: '',
+        newsletter: false,
       },
-      registerInfo: { newsletter: false },
       register: {
         mail: '',
         geschlecht: 'herr',
@@ -219,20 +223,39 @@ export default {
         tel: '',
       },
       loginObjekt: {
-        mail: '', pw: '',
+        mail: '',
+        pw: '',
       },
     };
   },
-  methods: {
-    checkLoginError() {
-      if (!this.errorLogin.mail.error &&
-      !this.errorLogin.pw.error) {
-        return false;
-      }
-      return true;
+  validations: {
+    loginObjekt: {
+      mail: { required, email },
+      pw: { required, minLength: minLength(8) },
     },
+    registerInfo: {
+      pw: { required, minLength: minLength(8) },
+      pw2: { required, sameAsPassword: sameAs('pw') },
+    },
+    register: {
+      mail: { required, email },
+      vorname: { required },
+      nachname: { required },
+      geburtsdatum: { required },
+      anschrift: {
+        strasseHausnummer: { required },
+        plz: { required },
+        ort: { required },
+      },
+    },
+  },
+  methods: {
     startLogin() {
+      this.$v.loginObjekt.$touch();
       console.log('Login GO!');
+    },
+    startRegister() {
+      console.log('Register GO!');
     },
   },
 };
@@ -240,7 +263,7 @@ export default {
 
 <style>
 .loginModal{
-  max-width: 500px;
+  max-width: 600px;
   width: 100%;
 }
 </style>
