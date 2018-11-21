@@ -19,7 +19,8 @@
       :error="$v.loginObjekt.mail.$error"
       error-label="Kein gültiges Mailformat erkannt"
     >
-      <q-input @blur="$v.loginObjekt.mail.$touch" v-model="loginObjekt.mail" type="email"/>
+    <q-input @blur="$v.loginObjekt.mail.$touch"
+    v-model="loginObjekt.mail" type="email" lower-case/>
     </q-field>
         <q-field
       icon="vpn_key"
@@ -43,8 +44,12 @@
                     label="Login Mail"
                     icon-color="primary"
                     class="q-mb-md q-mt-lg "
+                    :error="$v.register.mail.$error"
+                    error-label="Bitte gebe eine gültige Mail Adresse ein"
                     >
-                      <q-input  type="email" class="q-ma-xs" lower-case
+                      <q-input type="email"
+                      class="q-ma-xs" lower-case
+                      @blur="$v.register.mail.$touch"
                       v-model="register.mail" clearable />
                     </q-field>
 
@@ -66,7 +71,7 @@
                     label="Login Passwort wiederholen"
                     icon-color="primary"
                     class="q-mb-md q-mt-md "
-                     :error="$v.registerInfo.pw2.$error"
+                    :error="$v.registerInfo.pw2.$error"
                     error-label="Bitte gebe ein Passwort ein"
                     >
                       <q-input @blur="$v.registerInfo.pw2.$touch"
@@ -93,9 +98,11 @@
                   />
                     <q-input float-label="Titel (Prof, Dr, Dipl.-Psych, ...)"
                     type="text" class="q-ma-xs"
-                      v-model="register.titel" />
-                      <q-input float-label="Vorname" type="text" class="q-ma-xs"
-                      v-model="register.vorname" />
+                    v-model="register.titel" />
+                      <q-input float-label="Vorname"
+                      type="text" class="q-ma-xs"
+                      v-model="register.vorname"
+                      @blur="$v.register.vorname.$touch"/>
                       <q-input float-label="Nachname" type="text" class="q-ma-xs"
                       v-model="register.nachname" />
                       <q-datetime popover class="q-ma-xs"
@@ -148,7 +155,7 @@
                       </q-field> -->
                       <q-checkbox class="q-ma-lg" v-model="registerInfo.newsletter"
                       label="Newsletter und andere Spam" />
-                      <q-checkbox class="q-ml-lg q-mr-lg" v-model="agbsBlaBla"
+                      <q-checkbox class="q-ml-lg q-mr-lg" v-model="agbs"
                       label="AGB bla bla - Datenschutz bla bla" />
                     </q-step>
                     <q-stepper-navigation class="q-pa-md">
@@ -163,6 +170,7 @@
                         label="Weiter"
                       />
                        <q-btn v-if="currentStep == '3'"
+                       :disable="checkRegisterDisable()"
                       color="primary"
                         @click="startRegister()"
                         label="Account anlegen"
@@ -184,10 +192,6 @@ export default {
     return {
       // modus: 'Login',
       currentStep: '1',
-      errorLogin: {
-        mail: { error: false, msg: '' },
-        pw: { error: false, msg: '' },
-      },
       optionsGeschlecht: [
         {
           label: 'Herr',
@@ -202,7 +206,7 @@ export default {
           value: 'anderes',
         },
       ],
-      agbsBlaBla: false,
+      agbs: false,
       registerInfo: {
         pw: '',
         pw2: '',
@@ -250,6 +254,15 @@ export default {
     },
   },
   methods: {
+    checkRegisterDisable() {
+      this.$v.registerInfo.$touch();
+      this.$v.register.$touch();
+      if (this.$v.registerInfo.$error ||
+      this.$v.register.$error || !this.agbs) {
+        return true;
+      }
+      return false;
+    },
     startLogin() {
       this.$v.loginObjekt.$touch();
       console.log('Login GO!');
