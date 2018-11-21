@@ -33,7 +33,11 @@
     </q-field>
     <q-btn class="fit q-mt-md" color="primary"
     :disable="$v.loginObjekt.$error"
-    @click="startLogin" label="Login"/>
+    @click="startLogin" label="Login"
+    :loading="getFBLoadingState">
+    <span slot="loading">
+      <q-spinner class="on-left" /> Login...
+    </span></q-btn>
   </q-tab-pane>
   <q-tab-pane name="tab-2" class="q-pa-none">
       <q-stepper v-model="currentStep" ref="stepper" class="fit no-border">
@@ -174,7 +178,9 @@
                       color="primary"
                         @click="startRegister()"
                         label="Account anlegen"
-                      />
+                        :loading="getFBLoadingState"> <span slot="loading">
+                          <q-spinner class="on-left" />Account anlegen...
+                      </span></q-btn>
                     </q-stepper-navigation>
                   </q-stepper>
   </q-tab-pane>
@@ -253,6 +259,14 @@ export default {
       },
     },
   },
+  computed: {
+    getFBError() {
+      return this.$store.getters['storeKL/getFBError'];
+    },
+    getFBLoadingState() {
+      return this.$store.getters['storeKL/getFBLoadingState'];
+    },
+  },
   methods: {
     checkRegisterDisable() {
       this.$v.registerInfo.$touch();
@@ -265,10 +279,30 @@ export default {
     },
     startLogin() {
       this.$v.loginObjekt.$touch();
+      if (this.$v.loginObjekt.$error) {
+        console.log('Fail');
+        return false;
+      }
       console.log('Login GO!');
+      this.$store.dispatch('storeKL/LoginUser', {
+        mail: this.loginObjekt.mail,
+        pw: this.loginObjekt.pw,
+      });
+      return true;
     },
     startRegister() {
+      this.$v.register.$touch();
+      this.$v.registerInfo.$touch();
+      if (this.$v.registerInfo.$error || this.$v.register.$error) {
+        console.log('Fail');
+        return false;
+      }
       console.log('Register GO!');
+      this.$store.dispatch('storeKL/RegisterUser', {
+        mail: this.register.mail,
+        pw: this.registerInfo.pw,
+      });
+      return true;
     },
   },
 };

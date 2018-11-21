@@ -2,6 +2,8 @@ export default {
   //
   fb: '',
   fbStore: '',
+  fbLoading: false,
+  fbError: false,
   user: {
     // uid: '1021',
     // loginID: 'mwaibel#2468',
