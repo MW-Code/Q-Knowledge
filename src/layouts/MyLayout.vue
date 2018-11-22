@@ -23,13 +23,19 @@
            Q-Knowledge
           </div>
             </q-toolbar-title>
-        <q-btn flat
+        <q-btn flat rounded
           @click="profilLoginClick"
           :label="getUser.vorname ? getUser.vorname : 'login'"
           icon="account_circle"
           style="font-weight: 200">
         </q-btn>
-         <q-btn flat
+        <q-btn flat round
+          v-if="getUser.uid"
+          @click="logOff"
+          icon="power_settings_new"
+          style="font-weight: 200">
+        </q-btn>
+         <q-btn flat round
           @click="showmenu=!showmenu"
           icon="menu">
           <q-popover touch-position anchor="bottom left"
@@ -129,11 +135,13 @@ export default {
   },
   methods: {
     openURL,
+    logOff() {
+      this.$store.dispatch('storeKL/SignOutUser');
+    },
     profilLoginClick() {
       if (this.getUser.vorname) {
         this.$router.push('/profil');
       } else {
-        console.log('starte login!');
         this.startLogin = !this.startLogin;
       }
     },
@@ -141,7 +149,6 @@ export default {
   computed: {
     getUser() {
       // eslint-disable-next-line
-      console.log('getUser');
       const user = this.$store.getters['storeKL/getUser'];
       return user;
     },

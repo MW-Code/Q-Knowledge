@@ -29,7 +29,8 @@
       :error="$v.loginObjekt.pw.$error"
       error-label="Bitte gebe ein Passwort ein"
     >
-      <q-input @blur="$v.loginObjekt.pw.$touch" v-model="loginObjekt.pw" type="password"/>
+      <q-input @keyup.enter="startLogin" @blur="$v.loginObjekt.pw.$touch"
+      v-model="loginObjekt.pw" type="password"/>
     </q-field>
     <q-btn class="fit q-mt-md" color="primary"
     :disable="$v.loginObjekt.$error"
@@ -287,6 +288,8 @@ export default {
       this.$store.dispatch('storeKL/LoginUser', {
         mail: this.loginObjekt.mail,
         pw: this.loginObjekt.pw,
+      }).then((res) => {
+        if (res === true) { this.$emit('closeModal'); }
       });
       return true;
     },
@@ -301,7 +304,11 @@ export default {
       this.$store.dispatch('storeKL/RegisterUser', {
         mail: this.register.mail,
         pw: this.registerInfo.pw,
+        userInfo: this.register,
+      }).then((res) => {
+        if (res === true) { this.$emit('closeModal'); }
       });
+
       return true;
     },
   },
