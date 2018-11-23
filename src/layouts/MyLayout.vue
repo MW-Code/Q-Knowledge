@@ -37,34 +37,11 @@
         </q-btn>
          <q-btn flat round
           @click="showmenu=!showmenu"
-          icon="menu">
-          <q-popover touch-position anchor="bottom left"
+          icon="menu"/>
+          <!-- <q-popover touch-position anchor="bottom left"
            self="top left" v-model="showmenu">
-            <q-list highlight>
-              <q-list-header>Menü</q-list-header>
-              <q-item>
-                <q-item-main label="Impressum" />
-                <q-item-side>
-                  <q-item-tile icon="announcement" />
-                </q-item-side>
-              </q-item>
-              <q-item-separator />
-              <q-item>
-                <q-item-main label="Datenschutz" />
-                <q-item-side>
-                  <q-item-tile icon="lock" />
-                </q-item-side>
-              </q-item>
-              <q-item-separator />
-              <q-item>
-                <q-item-main label="AGB's" />
-                <q-item-side>
-                  <q-item-tile icon="assignment" />
-                </q-item-side>
-              </q-item>
-            </q-list>
-          </q-popover>
-        </q-btn>
+          </q-popover> -->
+        <!-- </q-btn> -->
           <!-- <q-btn v-if="getUser.uid"
           flat
           dense
@@ -79,7 +56,7 @@
     </q-layout-header>
 
     <q-layout-drawer v-if="getUser.uid" side="left"
-      v-model="leftDrawerOpen"
+      v-model="showmenu"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
       <q-list
@@ -114,6 +91,33 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+       <div id="fooder" class=" flex flex-center">
+     <div style=" width: 70%;">
+         <q-list highlight no-border dark>
+              <q-list-header>Menü</q-list-header>
+              <q-item>
+                <q-item-main label="Impressum" />
+                <q-item-side>
+                  <q-item-tile icon="announcement" />
+                </q-item-side>
+              </q-item>
+              <q-item-separator />
+              <q-item>
+                <q-item-main label="Datenschutz" />
+                <q-item-side>
+                  <q-item-tile icon="lock" />
+                </q-item-side>
+              </q-item>
+              <q-item-separator />
+              <q-item>
+                <q-item-main label="AGB's" />
+                <q-item-side>
+                  <q-item-tile icon="assignment" />
+                </q-item-side>
+              </q-item>
+            </q-list>
+      </div>
+    </div>
     <loginRegister :showModal = startLogin @closeModal = "startLogin = false"/>
   </q-layout>
 </template>
