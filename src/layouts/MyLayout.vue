@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh LpR lFf">
+  <q-layout view="hHh LpR fFf">
     <q-layout-header>
       <q-toolbar
         color="primary"
@@ -23,6 +23,9 @@
            Q-Knowledge
           </div>
             </q-toolbar-title>
+          <q-btn flat round
+          @click="leftDrawerOpen=!leftDrawerOpen"
+          icon="group_work"/>
         <q-btn flat rounded
           @click="profilLoginClick"
           :label="getUser.vorname ? getUser.vorname : 'login'"
@@ -37,63 +40,10 @@
         </q-btn>
          <q-btn flat round
           @click="showmenu=!showmenu"
-          icon="menu"/>
-          <!-- <q-popover touch-position anchor="bottom left"
+          icon="menu">
+          <q-popover touch-position anchor="bottom left"
            self="top left" v-model="showmenu">
-          </q-popover> -->
-        <!-- </q-btn> -->
-          <!-- <q-btn v-if="getUser.uid"
-          flat
-          dense
-          round
-          @click="rightDrawerOpen = !rightDrawerOpen"
-          aria-label="Quests"
-          icon='menu'
-        /> -->
-          <!-- <q-icon name="menu" />
-        </q-btn> -->
-      </q-toolbar>
-    </q-layout-header>
-
-    <q-layout-drawer v-if="getUser.uid" side="left"
-      v-model="showmenu"
-      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
-    >
-      <q-list
-        no-border
-        link
-        inset-delimiter
-      >
-        <q-list-header>{{getUser.vorname}} {{getUser.nachname}}</q-list-header>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
-        </q-item>
-      </q-list>
-    </q-layout-drawer>
-
-  <!-- <q-layout-drawer v-if="getUser.uid" side="right"
-      v-model="rightDrawerOpen"
-      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
-    >
-      <q-list
-        no-border
-        link
-        inset-delimiter
-      >
-        <q-list-header>Meine Quests</q-list-header>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
-        </q-item>
-      </q-list>
-    </q-layout-drawer> -->
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-       <div id="fooder" class=" flex flex-center">
-     <div style=" width: 70%;">
-         <q-list highlight no-border dark>
+              <q-list highlight no-border>
               <q-list-header>Menü</q-list-header>
               <q-item>
                 <q-item-main label="Impressum" />
@@ -116,8 +66,75 @@
                 </q-item-side>
               </q-item>
             </q-list>
+          </q-popover>
+        </q-btn>
+      </q-toolbar>
+    </q-layout-header>
+
+    <q-layout-drawer v-if="getUser.uid" side="left"
+      v-model="leftDrawerOpen"
+      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
+    >
+      <q-list
+        no-border
+        inset-delimiter>
+        <q-collapsible icon-toggle >
+          <template slot="header">
+            <q-item-side :letter="getUser.vorname.substring(0,1).toUpperCase()">
+            </q-item-side>
+            <q-item-main>
+              <q-item-tile> Mein Wissen</q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-btn class="" round flat dense
+                icon="add"
+                @click.native="addNewItem"
+              />
+            </q-item-side>
+          </template>
+          <div>
+          <q-item>
+          <q-item-side icon="face" />
+          <q-item-main label="bilder"/>
+          </q-item>
+          <q-item>
+          <q-item-side icon="desktop_windows" />
+          <q-item-main label="Admin Tricks"/>
+          </q-item>
+        </div>
+        </q-collapsible>
+      </q-list>
+      <q-btn-group style="width: 100%;
+    position: absolute;
+    bottom: 0px;">
+        <q-btn icon="group_work" style="width: 50%;" label="beitreten"/>
+        <q-btn icon="group_work" style="width: 50%;" label="erstellen"/>
+      </q-btn-group>
+    </q-layout-drawer>
+
+  <!-- <q-layout-drawer v-if="getUser.uid" side="right"
+      v-model="rightDrawerOpen"
+      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
+    >
+      <q-list
+        no-border
+        link
+        inset-delimiter
+      >
+        <q-list-header>Meine Quests</q-list-header>
+        <q-item @click.native="openURL('http://quasar-framework.org')">
+          <q-item-side icon="school" />
+          <q-item-main label="Docs" sublabel="quasar-framework.org" />
+        </q-item>
+      </q-list>
+    </q-layout-drawer> -->
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+       <!-- <q-layout-footer class=" flex flex-center">
+     <div style=" width: 70%;">
       </div>
-    </div>
+    </q-layout-footer> -->
     <loginRegister :showModal = startLogin @closeModal = "startLogin = false"/>
   </q-layout>
 </template>
@@ -148,6 +165,13 @@ export default {
       } else {
         this.startLogin = !this.startLogin;
       }
+    },
+    addNewItem() {
+      console.log('addItem');
+      this.$router.push('neueswissen');
+    },
+    addNewGroup() {
+
     },
   },
   computed: {
