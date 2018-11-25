@@ -14,4 +14,10 @@ export default {
     // klasse: {},
     // quests: [{}],
   },
+  privateKategorien: [{
+    id: '9', icon: 'place', name: 'Orte', beschreibung: 'Tolle Orte',
+  },
+  {
+    id: '10', icon: 'face', name: 'Kontakte', beschreibung: '',
+  }],
 };
