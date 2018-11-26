@@ -23,7 +23,7 @@
            Q-Knowledge
           </div>
             </q-toolbar-title>
-          <q-btn flat round
+          <q-btn flat round v-if="getUser.uid"
           @click="leftDrawerOpen=!leftDrawerOpen"
           icon="group_work"/>
         <q-btn flat rounded
