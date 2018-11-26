@@ -35,7 +35,8 @@
       <div class="col-md-12 col-sm-12 col-xs-12 q-pa-md q-mb-sm shadow-1"
         style="background-color: #fff;">
         <p class="q-headline">Wissens Inhalt</p>
-        <q-btn label="Element Hinzufügen" icon="add" color="primary" class="full-width q-mb-md"/>
+        <q-btn @click="showNeuesElement=!showNeuesElement"
+         label="Element Hinzufügen" icon="add" color="primary" class="full-width q-mb-md"/>
         <p  class="full-width" style="text-align:center"
         v-if="!neuesWissen.elemente">Noch keine Elemente hinzugefügt</p>
       </div>
@@ -43,14 +44,21 @@
       <q-btn label="Wissen speichern" icon="save" color="primary"
       style="max-width: 500px" class="QV_centerThis full-width q-ma-md"/>
     </div>
+      <neueKategorie :showModal = showNeueKategorie @closeModal = "showNeueKategorie = false"/>
+      <neuesElement :showModal = showNeuesElement @closeModal = "showNeuesElement = false"/>
   </q-page>
 </template>
 
 <script>
+import neueKategorie from '../components/modals/neueKategorie.vue';
+import neuesElement from '../components/modals/neuesElement.vue';
+
 export default {
   // name: 'PageName',
   data() {
     return {
+      showNeueKategorie: false,
+      showNeuesElement: false,
       neuesWissen: {
         titel: '',
         beschreibung: '',
@@ -66,6 +74,7 @@ export default {
       if (this.neuesWissen.kategorie === 'neueKategorie') {
         console.log('add Kategorie');
         this.neuesWissen.kategorie = undefined;
+        this.showNeueKategorie = !this.showNeueKategorie;
       }
     },
   },
@@ -91,6 +100,10 @@ export default {
       gruppenObjekt.push(newObjekt);
       return gruppenObjekt;
     },
+  },
+  components: {
+    neueKategorie,
+    neuesElement,
   },
 };
 </script>
