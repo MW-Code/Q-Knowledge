@@ -32,7 +32,7 @@
       <q-input @keyup.enter="startLogin" @blur="$v.loginObjekt.pw.$touch"
       v-model="loginObjekt.pw" type="password"/>
     </q-field>
-    <q-btn class="fit q-mt-md" color="primary"
+    <q-btn class="full-width q-mt-md" color="primary"
     :disable="$v.loginObjekt.$error"
     @click="startLogin" label="Login"
     :loading="getFBLoadingState">

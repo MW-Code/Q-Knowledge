@@ -7,17 +7,23 @@
           </q-toolbar-title>
       <q-btn rounded dense icon="close" @click="$emit('closeModal')" />
       </q-toolbar>
-  <!-- Tabs - notice slot="title" -->
-    <q-btn class="full-width q-mt-md" color="primary"
-    label="Speichern"
+      <div class="q-ma-md">
+        <IconPicker class="q-mb-md" :expanseIconPicker="false" :selectedIcon="'more'"/>
+      <q-input float-label="Name" v-model="newKategorie.katName" inverted class="q-mb-md"/>
+      <q-input float-label="Beschreibung" v-model="newKategorie.katBeschreibung"
+       inverted type="textarea" class="q-mb-md"  />
+    <q-btn class="full-width q-ma-md" color="primary"
+    label="Speichern" icon="save"
     :loading="getFBLoadingState">
     <span slot="loading">
       <q-spinner class="on-left" /> Speichern...
     </span></q-btn>
+      </div>
   </q-modal>
 </template>
 
 <script>
+import IconPicker from '../items/IconPicker.vue';
 
 export default {
   name: 'neueKategorieModal',
@@ -25,6 +31,11 @@ export default {
   data() {
     return {
       // modus: 'Login',
+      newKategorie: {
+        katName: '',
+        katIcon: 'ac_unit',
+        katBeschreibung: '',
+      },
     };
   },
   computed: {
@@ -37,12 +48,15 @@ export default {
   },
   methods: {
   },
+  components: {
+    IconPicker,
+  },
 };
 </script>
 
 <style>
 .kategorieModal{
-  max-width: 600px;
+  max-width: 400px;
   width: 100%;
 }
 </style>
