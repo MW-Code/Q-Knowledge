@@ -92,6 +92,7 @@ module.exports = function (ctx) {
         'QKnob',
         'QUploader',
         'QCheckbox',
+        'QScrollArea',
         'QChipsInput',
       ],
       directives: [
