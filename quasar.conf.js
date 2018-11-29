@@ -94,6 +94,7 @@ module.exports = function (ctx) {
         'QCheckbox',
         'QScrollArea',
         'QChipsInput',
+        'QTooltip',
       ],
       directives: [
         'Ripple'

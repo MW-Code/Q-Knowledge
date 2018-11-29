@@ -8,7 +8,8 @@
       <q-btn rounded dense icon="close" @click="$emit('closeModal')" />
       </q-toolbar>
       <div class="q-ma-md">
-        <IconPicker class="q-mb-md" :expanseIconPicker="false" :selectedIcon="'more'"/>
+        <IconPicker  class="q-mb-md" :expanseIconPicker="false"
+        :selectedIcon="'more'" @setIcon="setIcon" />
       <q-input float-label="Name" v-model="newKategorie.katName" inverted class="q-mb-md"/>
       <q-input float-label="Beschreibung" v-model="newKategorie.katBeschreibung"
        inverted type="textarea" class="q-mb-md"  />
@@ -47,6 +48,10 @@ export default {
     },
   },
   methods: {
+    setIcon(newIcon) {
+      this.newKategorie.katIcon = newIcon;
+      console.log(`emit this ${this.newKategorie.katIcon}`);
+    },
   },
   components: {
     IconPicker,
